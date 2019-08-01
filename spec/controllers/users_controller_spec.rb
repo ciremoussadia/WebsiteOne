@@ -166,29 +166,21 @@ describe UsersController, :type => :controller do
       it 'should redirect to the previous page' do
         expect(response).to redirect_to 'back'
       end
-
-      it 'should respond with appropriate error message' do
-        expect(flash[:alert]).to eq 'User has disabled hire me button'
-      end
-
-      it 'should not send an email' do
-        expect(mail.count).to eq 0
-      end
     end
 
     context 'with empty parameters' do
 
-      it 'should not fail with empty params' do
+      it 'should fail with empty params' do
         post :hire_me_contact_form, params: {}
         expect(flash[:alert]).to eq 'Please fill in Name, Email and Message field'
       end
 
-      it 'should not fail with empty message_form' do
+      it 'should fail with empty message_form' do
         post :hire_me_contact_form, params: { message_form: {} }
         expect(flash[:alert]).to eq 'Please fill in Name, Email and Message field'
       end
 
-      it 'should not fail with no back path' do
+      it 'should fail with no back path' do
         request.env['HTTP_REFERER'] = nil
         post :hire_me_contact_form, params: { message_form: { name: '', email: '', message: '' } }
         expect(flash[:alert]).to eq 'Please fill in Name, Email and Message field'
